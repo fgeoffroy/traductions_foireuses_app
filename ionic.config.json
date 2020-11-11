@@ -1,0 +1,7 @@
+{
+  "name": "franglais_angular",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
