@@ -1,6 +1,6 @@
 {
   "linuxAndroidStudioPath": "/home/geoffroy/Downloads/android/android-studio-ide-201.6858069-linux/android-studio/bin/studio.sh",
-  "appId": "io.ionic.starter",
+  "appId": "franglais.angular",
   "appName": "franglais_angular",
   "bundledWebRuntime": false,
   "npmClient": "npm",

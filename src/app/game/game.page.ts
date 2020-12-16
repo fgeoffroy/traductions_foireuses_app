@@ -93,7 +93,9 @@ export class GamePage implements OnInit {
           this.alreadyChosen.push(randInt);
         }
     }
+    // chosenAnswers[1] = 121; //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     let rightInd = Math.floor(Math.random() * this.nbOptions);
+    // rightInd = 1; //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     this.question.answerInd = rightInd;
     let id = chosenAnswers[rightInd];
     this.localDb.get_lyrics(id.toString()).then(res => {   //wait for get

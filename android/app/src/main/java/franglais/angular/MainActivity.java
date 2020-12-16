@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package franglais.angular;
 
 import android.os.Bundle;
 
