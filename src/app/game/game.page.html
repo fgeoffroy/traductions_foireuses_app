@@ -1,0 +1,156 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title *ngIf="tagName != 'english' && tagName != 'french'">{{ tagName }}</ion-title>
+    <ion-icon *ngIf="tagName == 'english'" src="/assets/img/uk.svg" size="large"></ion-icon>
+    <ion-icon *ngIf="tagName == 'french'" src="/assets/img/france.svg" size="large"></ion-icon>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">{{ tagName }}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+
+  <div id="container">
+
+    <!-- <p>fds fds</p> -->
+
+    <ion-grid>
+      <ion-row class="ion-justify-content-center" class="ion-grid-progressBar">
+        <ion-col *ngFor="let col of progressBar; let i = index" size="0" class="ion-col-progressBar">
+          <ion-icon *ngIf="i + 1 == currentQuestionNb" name="play-circle" color={{col}}></ion-icon>
+          <ion-icon *ngIf="i + 1 != currentQuestionNb" name="ellipse" color={{col}}></ion-icon>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-card id="lyrics_card">
+      <!-- <ion-card-header>
+        <ion-card-subtitle>Question {{ currentQuestionNb }} / {{ nbQuestionQuiz }}</ion-card-subtitle>
+      </ion-card-header> -->
+      <ion-card-content>
+        <ion-grid class="ion-align-items-center" id="lyrics_grid" text-wrap>
+          <!-- <ion-row>
+            <ion-col>
+              Question {{ currentQuestionNb }} / {{ nbQuestionQuiz }}
+            </ion-col>
+          </ion-row> -->
+          <!-- <ion-row>
+            <ion-col>
+            </ion-col>
+          </ion-row> -->
+
+          <ion-row class="ion-row-lyrics">
+            <ion-col id="lyrics_0" class="ion-col-lyrics">
+              {{ question.sentences[0] }}
+              <!-- fsefe grdgg gdrg fsefe grdgg gdrg fsefe grdgg gdrg fsefe grdgg gdrg drggrd fsefe -->
+            </ion-col>
+          </ion-row>
+          <ion-row class="ion-row-lyrics">
+            <ion-col id="lyrics_1" class="ion-col-lyrics">
+              {{ question.sentences[1] }}
+              <!-- fsefe grdgg gdrg fsefe grdgg gdrg fsefe grdgg gdrg fsefe grdgg gdrg drggrd fsefe grdgg gdrg drggrd fsefe grdgg gdrg drggrd fsefe grdgg gdrg drggrd fsefe grdgg gdrg drggrd fsefe grdgg gdrg drggrd fsefe grdgg gdrg drggrd fsefe grdgg gdrg drggrd xxxxx xxxxx xxxx xxxxxx -->
+              <!-- fsefe grdgg gdrg fsefe grdgg gdrg fsefe grdgg gdrg fsefe grdgg gdrg drggrd fsefe -->
+            </ion-col>
+          </ion-row>
+          <ion-row class="ion-row-lyrics">
+            <ion-col id="lyrics_2" class="ion-col-lyrics">
+              {{ question.sentences[2] }}
+              <!-- fsefe grdgg gdrg fsefe grdgg gdrg fsefe grdgg gdrg fsefe grdgg gdrg drggrd fsefe -->
+            </ion-col>
+          </ion-row>
+          <ion-row class="ion-row-lyrics">
+            <ion-col id="lyrics_3" class="ion-col-lyrics">
+              {{ question.sentences[3] }}
+              <!-- fsefe grdgg gdrg fsefe grdgg gdrg fsefe grdgg gdrg fsefe grdgg gdrg drggrd fsefe -->
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- <p>Question {{ currentQuestionNb }} / {{ nbQuestionQuiz }}</p>
+    <strong>{{ question.lyrics }}</strong>
+    <p></p> -->
+
+
+    <ion-grid class="ion-align-items-center" text-wrap>
+      <ion-row>
+        <ion-col class="ion-col-answer">
+          <ion-button (click) ="send_answer(0)" expand="block" [color]="getColor(0)">{{ question.answers[0] }}</ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col class="ion-col-answer">
+          <ion-button (click) ="send_answer(1)" expand="block" [color]="getColor(1)">{{ question.answers[1] }}</ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col class="ion-col-answer">
+          <ion-button (click) ="send_answer(2)" expand="block" [color]="getColor(2)">{{ question.answers[2] }}</ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col class="ion-col-answer">
+          <ion-button (click) ="send_answer(3)" expand="block" [color]="getColor(3)">{{ question.answers[3] }}</ion-button>
+        </ion-col>
+      </ion-row>
+      <!-- <ion-row>
+        <ion-col>
+        </ion-col>
+      </ion-row> -->
+      <ion-row>
+        <ion-col class="ion-col-bottom-buttons">
+          <ion-button (click) ="next_sentence()" [class.button-disabled]="isAnswered || nbClues >= nbSentences - 1" color="darkGreenC">
+            <ion-icon name="bulb" size="large"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col class="ion-col-bottom-buttons">
+          <ion-button color="purpleC" (click) ="next_question()" [class.button-disabled]="!(isAnswered)" color="darkGreenC">{{currentQuestionNb == nbQuestionQuiz ? 'Finir' : 'Suivant'}}</ion-button>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col class="ion-col-score">
+          <circle-progress
+            [percent] = get_relative_score()
+            [title] = score
+          ></circle-progress>
+        </ion-col>
+      </ion-row>
+
+    </ion-grid>
+
+
+
+    <!-- <ion-button (click) ="send_answer(0)" expand="block" [color]="getColor(0)">{{ question.answers[0] }}</ion-button>
+    <p></p>
+    <ion-button (click) ="send_answer(1)" expand="block" [color]="getColor(1)">{{ question.answers[1] }}</ion-button>
+    <p></p>
+    <ion-button (click) ="send_answer(2)" expand="block" [color]="getColor(2)">{{ question.answers[2] }}</ion-button>
+    <p></p>
+    <ion-button (click) ="send_answer(3)" expand="block" [color]="getColor(3)">{{ question.answers[3] }}</ion-button>
+    <p></p> -->
+
+    <!-- <ion-button>
+      <ion-icon name="bulb" size="large"></ion-icon>
+    </ion-button>
+    <p></p>
+    <ion-button (click) ="next_question()" [class.button-disabled]="!(isAnswered)">NEXT</ion-button>
+    <p></p> -->
+
+    <!-- <p>Score: {{ score }}</p> -->
+
+    <!-- <circle-progress
+      [percent] = get_relative_score()
+      [title] = score
+    ></circle-progress> -->
+
+  </div>
+
+
+</ion-content>

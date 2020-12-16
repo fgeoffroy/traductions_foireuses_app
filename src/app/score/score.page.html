@@ -1,0 +1,70 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Traductions foireuses</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Traductions foireuses</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="container">
+    <ion-grid  class="ion-align-items-center" text-wrap>
+      <ion-row>
+        <ion-col>
+          <circle-progress
+            [radius] = 100
+            [percent] = get_relative_score()
+            [title] = score
+            [animationDuration] = 500
+            [titleFontSize] = '30'
+            [unitsFontSize] = '20'
+          ></circle-progress>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <strong *ngIf="nbRightAnswer <= 1">{{nbRightAnswer}} bonne réponse sur {{nbQuestionQuiz}} !</strong>
+          <strong *ngIf="nbRightAnswer > 1">{{nbRightAnswer}} bonnes réponses sur {{nbQuestionQuiz}} !</strong>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-button [routerLink]="['/home']">Rejouer</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+
+    <!-- <circle-progress
+      [radius] = 100
+      [percent] = get_relative_score()
+      [title] = score
+      [animationDuration] = 500
+      [titleFontSize] = '30'
+      [unitsFontSize] = '20'
+    ></circle-progress>
+    <p></p>
+    <strong>{{ nbRightAnswer }} / {{ nbQuestionQuiz }} right answers!</strong>
+    <p></p>
+    <ion-button [routerLink]="['/home']">Rejouer</ion-button> -->
+
+  </div>
+
+
+</ion-content>

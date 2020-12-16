@@ -1,0 +1,177 @@
+// ion-content{
+//     --ion-background-color:#F4F4DA;
+// }
+
+// ion-button {
+//  // --text-transform: none;
+//  --background: var(--ion-color-purpleC);
+//  --color: var(--ion-color-purpleC-contrast);
+// }
+// Now see in variable.scss
+
+
+ion-toolbar {
+  text-align: center;
+}
+
+ion-img {
+  height: auto;
+  margin: auto;
+  display: block;
+}
+
+
+ion-card {
+  background-color: var(--ion-color-greyC);
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+// ion-grid {
+//   // background-color: var(--ion-color-paleGreenC);
+//   // margin: 0 !important;
+//   // padding: 0 !important;
+//   // width: 50% !important;
+// }
+
+.ion-grid-progressBar {
+  // background-color: var(--ion-color-paleGreenC);
+  margin: 0 !important;
+  padding: 0 !important;
+  justify-content: center !important;
+}
+
+.ion-col-progressBar {
+  margin-left: 10px !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+// .ion-test-button {
+//   font-size: 16px !important;
+// }
+
+// ion-card-header {
+//   // background-color: var(--ion-color-paleGreenC);
+//   // margin: 0 !important;
+//   padding: 15px !important;
+// }
+
+ion-card-content {
+  // background-color: var(--ion-color-paleGreenC);
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+
+#lyrics_card {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+#lyrics_grid {
+  // font-family: monospace;
+  font-family: 'Inconsolata';
+  font-size: 110%;
+  font-weight: bold;
+
+  user-select: none;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+// #lyrics_0 {
+//   line-height: 100%;
+// }
+
+#lyrics_1, #lyrics_2, #lyrics_3 {
+  // line-height: 100%;
+  color: transparent;
+  text-shadow: 0 0 9px rgba(0,0,0,0.5);
+}
+
+.ion-row-lyrics {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.ion-col-lyrics {
+  padding-top: 1px !important;
+  padding-bottom: 1px !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+
+
+.ion-col-answer {
+  padding-top: 1px !important;
+  padding-bottom: 1px !important;
+}
+
+.ion-col-bottom-buttons {
+  padding-top: 1px !important;
+  padding-bottom: 0px !important;
+}
+
+.ion-col-score {
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+}
+
+// @keyframes unblur {
+//   from {
+//     color: transparent;
+//     text-shadow: 0 0 5px rgba(0,0,0,0.5);
+//   }
+//   to {
+//     color: #8c8c8c;
+//     text-shadow: 0 0 0;
+//   }
+// }
+
+
+// #test_blank {
+//   line-height: 26px;
+// }
+
+
+#container {
+  text-align: center;
+
+  position: relative;
+  left: 0;
+  right: 0;
+  // top: 2%;
+  // top: 50%;
+  // transform: translateY(-50%);
+}
+
+#container strong {
+  font-size: 20px;
+  line-height: 26px;
+  // white-space: pre;     /* For \n to work */
+}
+
+#container p {
+  font-size: 16px;
+  line-height: 22px;
+
+  color: #8c8c8c;
+
+  margin: 0;
+}
+
+#container a {
+  text-decoration: none;
+}

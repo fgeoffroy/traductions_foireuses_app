@@ -1,20 +1,192 @@
-<ion-header [translucent]="true">
+<ion-header [translucent]="true" *ngIf="showPage">
   <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+    <ion-title>Traductions foireuses</ion-title>
   </ion-toolbar>
 </ion-header>
 
+
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
+  <ion-header collapse="condense" *ngIf="showPage">
     <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
+      <ion-title size="large">Traductions foireuses</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+
+  <div id="logo_div">
+    <ion-grid class="ion-align-items-center">
+      <ion-row>
+        <ion-col>
+          <ion-img id="logo" src="/assets/img/ic_launcher-playstore.png"></ion-img>
+        </ion-col>
+      </ion-row>
+      <ion-row class="bottomRow">
+        <ion-col>
+          <ion-spinner *ngIf="loadingMsg != ''" name="lines" class="ion-spinner-class"></ion-spinner>
+          {{ loadingMsg }}
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </div>
+
+
+  <div id="container" *ngIf="showPage">
+
+    <ion-list text-wrap>
+      <ion-item>
+        <strong>Règles :</strong>
+      </ion-item>
+      <ion-item>
+        Retrouvez la chanson à partir de sa traduction foireuse !
+      </ion-item>
+      <ion-item>
+        Trouver la réponse sans indice rapporte 10 points.
+      </ion-item>
+      <ion-item>
+        Vous pouvez demander un indice et voir la phrase suivante de la chanson.
+      </ion-item>
+      <ion-item>
+        Attention, trouver la chanson avec un indice rapporte moins de points !
+      </ion-item>
+      <ion-item>
+        Chaque indice supplémentaire rapporte 1 point de moins.
+      </ion-item>
+    </ion-list>
+
+
+
+
+
+    <!-- <p>{{ msgDB }}</p>
+    <p></p>
+    <p>{{ isConnected }}</p>
+    <p></p>
+    <p>{{ totalNbQuestions }}</p>
+    <p></p>
+    <p>{{ dbName }}</p> -->
+    <!-- <ion-button (click) ="start('english')" [class.button-disabled]="!(readyToStart)">Chansons anglaises</ion-button>
+    <p></p>
+    <ion-button (click) ="start('french')" [class.button-disabled]="!(readyToStart)">Chansons françaises</ion-button> -->
+
+
+    <ion-toolbar>
+      <ion-segment mode="ios" color="purpleC" [(ngModel)]="segmentModel">
+        <ion-segment-button value="english" layout="icon-start">
+          <!-- <ion-label>Chansons en anglais</ion-label> -->
+          <ion-icon src="/assets/img/uk.svg" size="large"></ion-icon>
+        </ion-segment-button>
+        <ion-segment-button value="french" layout="icon-start">
+          <!-- <ion-label>Chansons en français</ion-label> -->
+          <ion-icon src="/assets/img/france.svg" size="large"></ion-icon>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-toolbar>
+
+    <!-- fill="outline" -->
+    <ion-list lines="full">
+      <ion-item *ngIf="segmentModel === 'english'" class="ion-item-choice">
+        <ion-grid class="ion-align-items-center">
+          <ion-row>
+            <ion-col>
+              <ion-button (click) ="start('english')" [class.button-disabled]="disableButtons">
+                Jouer
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+      <ion-item *ngIf="segmentModel === 'english'" class="ion-item-choice">
+        <ion-grid class="ion-align-items-center" text-wrap>
+          <ion-row>
+            Ou choisir un genre musical :
+          </ion-row>
+          <ion-row>
+            <!-- <ion-col *ngFor="let tag of playableTags; let i = index">
+              <ion-button *ngIf="tag.lang == 'en' && tag.type == 'genre' && tag.name != 'english'" (click) ="start(tag.name)" [class.button-disabled]="disableButtons">{{tag.name}}</ion-button>
+            </ion-col> -->
+            <ion-col *ngFor="let tag of get_tags('genre', 'en'); let i = index">
+              <ion-button (click) ="start(tag.name)" [class.button-disabled]="disableButtons">{{tag.name}}</ion-button>
+            </ion-col>
+            <!-- <ion-col>
+              <ion-button (click) ="start('pop')" [class.button-disabled]="disableButtons">Pop</ion-button>
+            </ion-col> -->
+            <!-- <ion-col>
+              <ion-button (click) ="start('rock')" [class.button-disabled]="disableButtons">Rock</ion-button>
+            </ion-col> -->
+            <!-- <ion-col>
+              <ion-button (click) ="start('r-b')" [class.button-disabled]="disableButtons">R'n'B</ion-button>
+            </ion-col>
+            <ion-col>
+              <ion-button (click) ="start('rap')" [class.button-disabled]="disableButtons">Rap</ion-button>
+            </ion-col> -->
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+
+      <ion-item *ngIf="segmentModel === 'french'" class="ion-item-choice">
+        <ion-grid class="ion-align-items-center">
+          <ion-row>
+            <ion-col>
+              <ion-button (click) ="start('french')" [class.button-disabled]="disableButtons">
+                Jouer
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+      <ion-item *ngIf="segmentModel === 'french'" class="ion-item-choice">
+        <ion-grid class="ion-align-items-center" text-wrap>
+          <ion-row>
+            Ou choisir un genre musical :
+          </ion-row>
+          <ion-row>
+            <ion-col *ngFor="let tag of get_tags('genre', 'fr'); let i = index">
+              <ion-button (click) ="start(tag.name)" [class.button-disabled]="disableButtons">{{tag.name}}</ion-button>
+            </ion-col>
+            <!-- <ion-col>
+              <ion-button (click) ="start('french')" [class.button-disabled]="disableButtons">Variété française</ion-button>
+            </ion-col> -->
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+
+
+      <ion-item  *ngIf="segmentModel === 'english'" class="ion-item-choice">
+        <ion-grid class="ion-align-items-center" text-wrap>
+          <ion-row>
+            Ou choisir un artiste :
+          </ion-row>
+          <ion-row>
+            <ion-col *ngFor="let tag of get_tags('artist', 'en'); let i = index">
+              <ion-button (click) ="start(tag.name)" [class.button-disabled]="disableButtons">{{tag.name}}</ion-button>
+            </ion-col>
+            <!-- <ion-col>
+              <ion-button (click) ="start('The Beatles')" [class.button-disabled]="disableButtons">The Beatles</ion-button>
+            </ion-col> -->
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+
+      <ion-item  *ngIf="segmentModel === 'french'" class="ion-item-choice">
+        <ion-grid class="ion-align-items-center" text-wrap>
+          <ion-row>
+            Ou choisir un artiste :
+          </ion-row>
+          <ion-row>
+            <ion-col *ngFor="let tag of get_tags('artist', 'fr'); let i = index">
+              <ion-button (click) ="start(tag.name)" [class.button-disabled]="disableButtons">{{tag.name}}</ion-button>
+            </ion-col>
+            <!-- <ion-col>
+              <ion-button (click) ="start('Georges Brassens')" [class.button-disabled]="disableButtons">Georges Brassens</ion-button>
+            </ion-col> -->
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+
+    </ion-list>
+
+
+  </div>
+
+
 </ion-content>
