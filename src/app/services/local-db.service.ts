@@ -48,19 +48,19 @@ export class LocalDbService {
             this.database = db;
             this.database.executeSql(
               'create table if not exists Songs(id INT(4), artist VARCHAR(100), title VARCHAR(100), trans_lyrics_1 VARCHAR(250), trans_lyrics_2 VARCHAR(250), trans_lyrics_3 VARCHAR(250), trans_lyrics_4 VARCHAR(250))', [])
-              .then(() => console.log('Executed SQL'))
-              .catch(e => console.log(e));
+              // .then(() => console.log('Executed SQL'))
+              // .catch(e => console.log(e));
             this.database.executeSql(
               'create table if not exists Tags(type VARCHAR(30), lang VARCHAR(10), name VARCHAR(50), indices VARCHAR(1000))', [])
-              .then(() => console.log('Executed SQL'))
-              .catch(e => console.log(e));
+              // .then(() => console.log('Executed SQL'))
+              // .catch(e => console.log(e));
             this.database.executeSql(
-              'create table if not exists MetaInfo(version INT(6))', [])
-              .then(() => console.log('Executed SQL'))
-              .catch(e => console.log(e));
+              'create table if not exists MetaInfo(name VARCHAR(30), number INT(6))', [])
+              // .then(() => console.log('Executed SQL'))
+              // .catch(e => console.log(e));
             this.dbReady.next(true);
           })
-          .catch(e => console.log(e));
+          // .catch(e => console.log(e));
       });
     }
   }
@@ -167,7 +167,7 @@ export class LocalDbService {
       // );
     )
     .catch((error) => {
-      console.log(error)
+      // console.log(error)
       return "error";
     });
   }
@@ -177,12 +177,24 @@ export class LocalDbService {
 
   public get_local_db_version() {
     if (this.useSQLite) {
-      return this.database.executeSql("SELECT * FROM MetaInfo", []).then((data) => {
-        if (data.rows.length == 1) {
-          return data.rows.item(0).version;
-        } else {
-          return 0;
-        }
+      // Test if all songs and all tags are present in the database
+      return this.database.executeSql("SELECT * FROM MetaInfo", []).then((dataMeta) => {
+        return this.database.executeSql("SELECT COUNT(*) FROM Tags", []).then((countTags) => {
+          return this.database.executeSql("SELECT COUNT(*) FROM Songs", []).then((countSongs) => {
+            if (dataMeta.rows.length == 3 && countTags.rows.length > 0 && countSongs.rows.length > 0) {
+              let version = dataMeta.rows.item(0).number;
+              let nbTags = dataMeta.rows.item(1).number;
+              let nbSongs = dataMeta.rows.item(2).number;
+              if (countTags.rows.item(0)['COUNT(*)'] == nbTags && countSongs.rows.item(0)['COUNT(*)'] == nbSongs) {
+                return version;
+              } else {
+                return 0;
+              }
+            } else {
+              return 0;
+            }
+          });
+        });
       });
     } else {
       return this.storage.get('version').then((res) => {
@@ -199,8 +211,8 @@ export class LocalDbService {
   public initialize_db() {
     if (this.useSQLite) {
       this.dbName = "Cordova SQLite";
-      let data = [this.dbVersion];
-      return this.database.executeSql("INSERT INTO MetaInfo (version) VALUES (?)", data).then(() => {
+      let data = ["version", this.dbVersion];
+      return this.database.executeSql("INSERT INTO MetaInfo (name, number) VALUES (?, ?)", data).then(() => {
       });
     } else {
       return this.storage.ready().then(() => {
@@ -312,7 +324,14 @@ export class LocalDbService {
             this.songs.push(song);
           })
           return this.save_songs().then(() => {
-            return "ok songs";
+            // Save number of tags and number of songs
+            let dataMeta = ["tags", this.tags.length];
+            return this.database.executeSql("INSERT INTO MetaInfo (name, number) VALUES (?, ?)", dataMeta).then(() => {
+              let dataSongs = ["songs", this.songs.length];
+              return this.database.executeSql("INSERT INTO MetaInfo (name, number) VALUES (?, ?)", dataSongs).then(() => {
+                return "ok songs";
+              });
+            });
           });
         }
       );
@@ -328,7 +347,6 @@ export class LocalDbService {
       let data = [];
       let query = "INSERT INTO Songs (id, artist, title, trans_lyrics_1, trans_lyrics_2, trans_lyrics_3, trans_lyrics_4) VALUES "
       let rowArgs = [];
-      console.log(this.songs.length);
       for (let song of this.songs) {
         rowArgs.push("(?, ?, ?, ?, ?, ?, ?)");
         data.push(id);
@@ -343,8 +361,7 @@ export class LocalDbService {
       query += rowArgs.join(", ");
       // console.log(query);
       // console.log(data);
-      return this.database.executeSql(query, data).then((res) => {
-        console.log(res);
+      return this.database.executeSql(query, data).then(() => {
       });
       // for (let song of this.songs.slice(0, 2)) {
       //   data = [id, song.artist, song.title, song.trans_lyrics[0], song.trans_lyrics[1], song.trans_lyrics[2], song.trans_lyrics[3]];
